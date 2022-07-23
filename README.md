@@ -61,3 +61,5 @@ runs:
   # Upload the mod as a build asset
   - uses: Gorilla-Tag-Modding-Group/gorilla-tag-build-tools/actions/upload@main
 ```
+
+More examples can be found in the [examples](/examples/) folder.
