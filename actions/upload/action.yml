@@ -1,0 +1,43 @@
+name: Upload
+description: Uploads mod to Discord or Github
+
+inputs:
+  webhook-url:
+    description: "Discord webhook url"
+    required: false
+    default: ""
+  file-path:
+    description: "Path to the build zip"
+    required: false
+    default: Build.zip
+
+runs:
+  using: "composite"
+  steps:
+    - name: Prepare build for upload
+      shell: pwsh
+      run: |
+        if (Test-Path Build ) { Remove-Item Build -Recurse }
+        Expand-Archive ${{ inputs.file-path }} Build
+
+    - name: Upload to GitHub
+      if: "${{ inputs.webhook-url == '' }}" # If there is no webhook, upload to the action
+      env:
+        WEBHOOK_URL: ${{ inputs.webhook-url }}
+      uses: actions/upload-artifact@v1
+      with:
+        name: Build
+        path: Build
+
+    - name: Upload to Discord
+      if: "${{ inputs.webhook-url != '' }}" # If a webhook is supplied, use it instead
+      env:
+        JSON: ${{ toJSON(github) }}
+      shell: bash
+      run: |
+        curl https://raw.githubusercontent.com/ChaoticWeg/discord.sh/master/discord.sh -o discord.sh
+        ./discord.sh \
+        --webhook-url="${{ inputs.webhook-url }}" \
+        --text "**${{github.actor}}** on **${{github.repository}}**(${{github.ref}}): *$(printenv JSON | jq .event.head_commit.message | sed -e 's/\\r.*//' -e s/\"//)*\n<https://github.com/${{github.repository}}/commit/${{github.sha}}>" \
+        --file ${{ inputs.file-path }}
+        

@@ -1,0 +1,22 @@
+name: MonkeMapLoader
+description: Downloads MonkeMapLoader (Vadix88/MonkeMapLoader) to Libs dir
+
+inputs:
+  output-dir:
+    description: "Directory to output to (i.e. working-dir/Libs)"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+  - name: Download Monke Map Loader
+    uses: robinraju/release-downloader@v1.2
+    with:
+      repository: "Vadix88/MonkeMapLoader"
+      latest: true
+      fileName: "*"
+  - name: Extract Monke Map Loader
+    run: |
+      Expand-Archive MonkeMapLoader*.zip Temp
+      cp Temp\BepInEx\plugins\MonkeMapLoader\MonkeMapLoader.dll ${{inputs.output-dir}}
+      rm Temp -Recurse

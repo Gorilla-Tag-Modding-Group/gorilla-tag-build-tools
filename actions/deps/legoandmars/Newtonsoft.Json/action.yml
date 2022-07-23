@@ -1,0 +1,22 @@
+name: Newtonsoft.Json
+description: Downloads Newtonsoft.Json (legoandmars/Newtonsoft.Json) to Libs dir
+
+inputs:
+  output-dir:
+    description: "Directory to output to (i.e. working-dir/Libs)"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download Newtonsoft.Json
+      uses: robinraju/release-downloader@v1.2
+      with:
+        repository: "legoandmars/Newtonsoft.Json"
+        latest: true
+        fileName: "*"
+    - name: Extract Newtonsoft.Json
+      run: |
+        Expand-Archive Newtonsoft.Json*.zip Temp
+        cp Temp\BepInEx\core\Newtonsoft.Json.dll ${{ inputs.output-dir }}
+        rm Temp -Recurse

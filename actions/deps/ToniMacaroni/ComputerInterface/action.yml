@@ -1,0 +1,22 @@
+name: ComputerInterface
+description: Downloads ComputerInterface (ToniMacaroni/ComputerInterface) to Libs dir
+
+inputs:
+  output-dir:
+    description: "Directory to output to (i.e. working-dir/Libs)"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download Computer Interface
+      uses: robinraju/release-downloader@v1.2
+      with:
+        repository: "ToniMacaroni/ComputerInterface"
+        latest: true
+        fileName: "*"
+    - name: Extract Computer Interface
+      run: |
+        Expand-Archive ComputerInterface*.zip Temp
+        cp Temp\BepInEx\plugins\ComputerInterface ${{ inputs.output-dir }} -Recurse
+        rm Temp -Recurse

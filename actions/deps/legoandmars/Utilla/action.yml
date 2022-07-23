@@ -1,0 +1,23 @@
+name: Utilla
+description: Downloads Utilla (legoandmars/Utilla) to Libs dir
+
+inputs:
+  output-dir:
+    description: "Directory to output to (i.e. working-dir/Libs)"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+  - name: Download Utilla
+    uses: robinraju/release-downloader@v1.2
+    with:
+      repository: "legoandmars/Utilla"
+      latest: true
+      fileName: "*"
+  - name: Extract Utilla
+    shell: pwsh
+    run: |
+      Expand-Archive Utilla*.zip Temp
+      cp Temp\BepInEx\plugins\Utilla ${{ inputs.output-dir }} -Recurse
+      rm Temp -Recurse

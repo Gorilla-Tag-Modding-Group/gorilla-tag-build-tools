@@ -1,0 +1,38 @@
+name: Publish
+description: Publish mod to Discord, runs on release publish
+
+inputs:
+  webhook-url:
+    description: "Discord webhook url"
+    required: false
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+  - name: Get Release Text
+    env:
+      BODY: ${{ github.event.release.body }}
+    shell: bash
+    run: |
+      printenv BODY > message.md
+      sed -i 's/\r$//g' message.md
+
+  - name: Format release text
+    uses: Graicc/MarkdownDiscordConverter@master
+    with:
+      file: message.md
+      output: output.txt
+
+  - name: Send Webhook
+    shell: bash
+    run: |
+      name=$(curl ${{ github.event.sender.url }} | jq -r .name)
+
+      curl https://raw.githubusercontent.com/ChaoticWeg/discord.sh/master/discord.sh -o discord.sh
+      chmod +x ./discord.sh
+      ./discord.sh \
+      --webhook-url="${{ inputs.webhook-url }}" \
+      --username "$name" \
+      --avatar "${{ github.event.sender.avatar_url }}" \
+      --text "$(jq -Rs . <output.txt | cut -c 2- | rev | cut -c 2- | rev)" 

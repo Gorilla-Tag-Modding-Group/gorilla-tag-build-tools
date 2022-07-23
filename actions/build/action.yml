@@ -1,0 +1,26 @@
+name: Build
+description: Build Gorilla Tag mod using MakeRelease.ps1
+
+inputs:
+  working-dir:
+    description: "Working directory"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    # Build the mod
+  - name: Setup dotnet
+    uses: actions/setup-dotnet@v1
+  - name: Build project
+    env: 
+      CI: TRUE
+    shell: pwsh
+    run: ${{ inputs.working-dir }}\MakeRelease.ps1
+  - name: Prepare build for upload
+    shell: pwsh
+    env:
+      WORKING_DIR: ${{ inputs.working-dir }}
+    run: |
+      $dir = (Get-Item $Env:WORKING_DIR).BaseName
+      mv $Env:WORKING_DIR\$dir-v.zip Build.zip

@@ -1,0 +1,33 @@
+name: Setup
+description: Sets up Gorilla Tag build enviroment
+
+inputs:
+  working-dir:
+    description: "Working directory"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    # Download required libraries
+  - name: Download Stripped Libs
+    uses: robinraju/release-downloader@v1.2
+    with:
+      repository: "Gorilla-Tag-Modding-Group/BeatStripper"
+      latest: true
+      fileName: "Stripped.zip"
+  - name: Extract Stripped Libs
+    shell: pwsh
+    run: Expand-Archive .\Stripped.zip ${{ inputs.working-dir }}\Libs
+  - name: Download BepInEx
+    uses: robinraju/release-downloader@v1.2
+    with:
+      repository: "BepInEx/BepInEx"
+      latest: true
+      fileName: "*"
+  - name: Extract BepInEx
+    shell: pwsh
+    run: |
+      Expand-Archive BepInEx_x64*.zip Temp
+      cp Temp\BepInEx\core\*.dll ${{ inputs.working-dir }}\Libs
+      rm Temp -Recurse

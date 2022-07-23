@@ -1,0 +1,16 @@
+name: Working Dir
+description: Get working directory
+
+outputs:
+  dir:
+    description: "Working directory of the csproj"
+    value: ${{ steps.wd.outputs.dir }}
+
+runs:
+  using: "composite"
+  steps:
+    # Setup
+  - name: Get working directory
+    id: wd
+    shell: pwsh
+    run: echo "::set-output name=dir::$(((ls . -filter *.csproj -recurse | sort).DirectoryName) | select -last 1)"

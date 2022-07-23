@@ -1,0 +1,25 @@
+name: Bepinject
+description: Downloads Bepinject (Auros/Bepinject) to Libs dir
+
+inputs:
+  output-dir:
+    description: "Directory to output to (i.e. working-dir/Libs)"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download Bepinject
+      uses: robinraju/release-downloader@v1.2
+      with:
+        repository: "Auros/Bepinject"
+        latest: true
+        fileName: "*"
+    - name: Extract Bepinject
+      run: |
+        Expand-Archive Bepinject*.zip Temp
+        cp Temp\Bepinject-Auros ${{ inputs.output-dir }} -Recurse
+        rm Temp -Recurse
+        Expand-Archive Extenject*.zip Temp
+        cp Temp\Extenject ${{ inputs.output-dir }} -Recurse
+        rm Temp -Recurse
