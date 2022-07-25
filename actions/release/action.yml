@@ -1,0 +1,59 @@
+name: Release
+description: Creates a release post with given properties
+
+inputs:
+  token:
+    description: "Github token"
+    required: true
+  tag:
+    description: "Tag to be created"
+    required: true
+  template:
+    description: "Path to release template file"
+    required: false
+    default: .github/templates/release.md
+  human-name: 
+    description: "Human readable name of the repository"
+    required: false
+    default: ${{ github.event.repository.name }}
+  file-path:
+    description: "Path to the build zip"
+    required: false
+    default: Build.zip
+
+runs:
+  using: "composite"
+  steps:
+  - name: Format Release Template
+    shell: bash
+    run: |
+      sed -i 's@{REPO}@'"${{ github.server_url }}/${{ github.repository }}"'@g' .github/templates/release.md
+      sed -i 's@{NAME}@'"${{ github.event.repository.name }}"'@g' .github/templates/release.md
+      sed -i 's@{HUMAN_NAME}@'"${{ inputs.human-name }}"'@g' .github/templates/release.md
+      sed -i 's@{VERSION}@'"${{ inputs.tag }}"'@g' .github/templates/release.md
+      desc=$(curl ${{ github.event.repository.url }} | jq -r .description)
+      sed -i 's@{DESCRIPTION}@'"$desc"'@g' .github/templates/release.md
+
+    # Make release
+  - name: Create Release
+    id: create_release
+    uses: actions/create-release@v1
+    env:
+      GITHUB_TOKEN: ${{ inputs.token }}
+    with:
+      tag_name: ${{ inputs.tag }}
+      release_name: ${{ inputs.human-name }} ${{ inputs.tag }}
+      body_path: .github/templates/release.md
+      draft: true
+
+  - name: Upload Release Asset
+    id: upload-release-asset 
+    if: inputs.file-path != ''
+    uses: actions/upload-release-asset@v1
+    env:
+      GITHUB_TOKEN: ${{ inputs.token }}
+    with:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      asset_path: ./Build.zip
+      asset_name: Build.zip
+      asset_content_type: application/zip

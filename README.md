@@ -19,6 +19,8 @@ Requries `working-dir`, which is typically obtained from `actions/working-dir`.
 - `actions/upload`: This action uploads a build to GitHub or a Discord channel.
 If a Discord webhook is supplied as `webhook-url`, the mod will be uploaded there, otherwise it will be uploaded as a [build artifact](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#about-workflow-artifacts).
 
+- `actions/release`: This action creates a GitHub release with the specified `tag` from a template file `template`. Requires `token`, and optionally takes in `human-name` to be used as the repo name.
+
 - `actions/publish`: This action makes a Discord post based on a GitHub release. It must be ran in an action triggered by a release publish.
 [Build enviroments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#wait-timer) can be used to delay the post to allow [Monke Mod Info](https://github.com/DeadlyKitten/MonkeModInfo) to update.
 [MarkdownDiscordConverter](https://github.com/Graicc/MarkdownDiscordConverter) is used to format the release message for Disord.
