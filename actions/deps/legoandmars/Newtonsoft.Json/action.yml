@@ -16,6 +16,7 @@ runs:
         latest: true
         fileName: "*"
     - name: Extract Newtonsoft.Json
+      shell: pwsh
       run: |
         Expand-Archive Newtonsoft.Json*.zip Temp
         cp Temp\BepInEx\core\Newtonsoft.Json.dll ${{ inputs.output-dir }}

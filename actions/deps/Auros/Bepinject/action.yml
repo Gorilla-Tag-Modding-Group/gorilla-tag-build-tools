@@ -16,6 +16,7 @@ runs:
         latest: true
         fileName: "*"
     - name: Extract Bepinject
+      shell: pwsh
       run: |
         Expand-Archive Bepinject*.zip Temp
         cp Temp\Bepinject-Auros ${{ inputs.output-dir }} -Recurse

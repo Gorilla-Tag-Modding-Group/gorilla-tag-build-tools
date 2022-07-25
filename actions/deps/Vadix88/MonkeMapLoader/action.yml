@@ -16,6 +16,7 @@ runs:
       latest: true
       fileName: "*"
   - name: Extract Monke Map Loader
+    shell: pwsh
     run: |
       Expand-Archive MonkeMapLoader*.zip Temp
       cp Temp\BepInEx\plugins\MonkeMapLoader\MonkeMapLoader.dll ${{inputs.output-dir}}

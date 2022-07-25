@@ -16,6 +16,7 @@ runs:
         latest: true
         fileName: "*"
     - name: Extract Computer Interface
+      shell: pwsh
       run: |
         Expand-Archive ComputerInterface*.zip Temp
         cp Temp\BepInEx\plugins\ComputerInterface ${{ inputs.output-dir }} -Recurse
