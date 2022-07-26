@@ -38,6 +38,6 @@ runs:
         curl https://raw.githubusercontent.com/ChaoticWeg/discord.sh/master/discord.sh -o discord.sh
         ./discord.sh \
         --webhook-url="${{ inputs.webhook-url }}" \
-        --text "**${{github.actor}}** on **${{github.repository}}**(${{github.ref}}): *$(printenv JSON | jq .event.head_commit.message | sed -e 's/\\r.*//' -e s/\"//)*\n<https://github.com/${{github.repository}}/commit/${{github.sha}}>" \
+        --text "**${{github.actor}}** on **${{github.repository}}**(${{github.ref}}): *$(printenv JSON | jq .event.head_commit.message | sed -e 's/\\r.*//' -e s/\"//g)*\n<https://github.com/${{github.repository}}/commit/${{github.sha}}>" \
         --file ${{ inputs.file-path }}
         
