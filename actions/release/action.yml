@@ -55,5 +55,5 @@ runs:
     with:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
       asset_path: ./Build.zip
-      asset_name: Build.zip
+      asset_name: ${{ github.event.repository.name }}.zip
       asset_content_type: application/zip
