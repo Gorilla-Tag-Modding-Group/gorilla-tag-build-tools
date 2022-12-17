@@ -19,6 +19,11 @@ runs:
   - name: Extract Stripped Libs
     shell: pwsh
     run: Expand-Archive .\Stripped.zip ${{ inputs.working-dir }}\Libs
+  - name: Download Unity
+    shell: pwsh
+    run: |
+      curl https://unity.bepinex.dev/libraries/2019.3.15.zip --output Unity.zip
+      Expand-Archive Unity.zip ${{ inputs.working-dir }}\Libs -F
   - name: Download BepInEx
     uses: robinraju/release-downloader@v1.2
     with:
