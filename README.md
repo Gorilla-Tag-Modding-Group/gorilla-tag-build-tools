@@ -2,11 +2,11 @@
 
 A collection of tools (mostly composite GitHub Actions) for building Gorilla Tag mods.
 
-These actions are intended to work with mods created with the [Gorilla Tag Mod Template](https://github.com/graicc/gorillatagmodtemplate).
+These actions are intended to work with mods created with the [Gorilla Tag Mod Template](https://github.com/graicc/gorillatagmodtemplate), and Gorilla Tag libraries are provided through [Beat Stripper](https://github.com/Gorilla-Tag-Modding-Group/BeatStripper)
 
 ## Actions
 
-### [working-dir](actions/working-dir/)
+### [working-dir](actions/working-dir/action.yml)
 
 This finds the directory where the `.csproj` file is located, which is necesssary to determine whhere to put files.
 
@@ -14,7 +14,7 @@ Outputs:
 
 - `dir`: The directory the project is located in
 
-### [setup](actions/setup)
+### [setup](actions/setup/action.yml)
 
 This sets up the build enviroment by downloading the [Stripped Libs](https://github.com/Gorilla-Tag-Modding-Group/BeatStripper) and other common dependencies (e.g. BepInEx).
 
@@ -30,7 +30,7 @@ Inputs:
 
 - `output-dir`: Directory to put files for reference, typically `[working-dir]\Libs`
 
-### [build](actions/build)
+### [build](actions/build/action.yml)
 
 This action builds the mod by running [`MakeRelease.ps1`](https://github.com/Graicc/GorillaTagModTemplate#template-information).
 
@@ -38,7 +38,7 @@ Inputs:
 
 - `working-dir`: Working directory, typically the output of [working-dir](actions/working-dir/)
 
-### [upload](actions/upload)
+### [upload](actions/upload/action.yml)
 
 This action uploads a build to GitHub or a Discord channel.
 
@@ -47,7 +47,7 @@ Inputs:
 - `webhook-url`: Optional Discord webhook url. If supplied, the build will be uploaded there, otherwise it will be uploaded as a [build artifact](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts#about-workflow-artifacts)
 - `file-path`: Optional flie path to build. Defaults to `Build.zip`
 
-### [release](actions/release)
+### [release](actions/release/action.yml)
 
 This action creates a GitHub release from a template file. Applies the following subsitutions to the template file:
 
@@ -65,7 +65,7 @@ Inputs:
 - `human-name`: Optional human readable name of the repository. Defaults to `${{ github.event.repository.name }}`
 `file-path`: Optional flie path to build. Defaults to `Build.zip`
 
-### [publish](actions/publish)
+### [publish](actions/publish/action.yml)
 
 This action makes a Discord post based on a GitHub release. It must be ran in an action triggered by a release publish.
 [Build enviroments](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#wait-timer) can be used to delay the post to allow [Monke Mod Info](https://github.com/DeadlyKitten/MonkeModInfo) to update.
