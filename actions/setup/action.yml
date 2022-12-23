@@ -11,7 +11,7 @@ runs:
   steps:
     # Download required libraries
   - name: Download Stripped Libs
-    uses: robinraju/release-downloader@v1.2
+    uses: robinraju/release-downloader@v1.7
     with:
       repository: "Gorilla-Tag-Modding-Group/BeatStripper"
       latest: true
@@ -25,7 +25,7 @@ runs:
       curl https://unity.bepinex.dev/libraries/2019.3.15.zip --output Unity.zip
       Expand-Archive Unity.zip ${{ inputs.working-dir }}\Libs -F
   - name: Download BepInEx
-    uses: robinraju/release-downloader@v1.2
+    uses: robinraju/release-downloader@v1.7
     with:
       repository: "BepInEx/BepInEx"
       latest: true

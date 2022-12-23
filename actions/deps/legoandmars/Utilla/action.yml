@@ -10,7 +10,7 @@ runs:
   using: "composite"
   steps:
   - name: Download Utilla
-    uses: robinraju/release-downloader@v1.2
+    uses: robinraju/release-downloader@v1.7
     with:
       repository: "legoandmars/Utilla"
       latest: true

@@ -10,7 +10,7 @@ runs:
   using: "composite"
   steps:
     - name: Download Newtonsoft.Json
-      uses: robinraju/release-downloader@v1.2
+      uses: robinraju/release-downloader@v1.7
       with:
         repository: "legoandmars/Newtonsoft.Json"
         latest: true
