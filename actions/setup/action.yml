@@ -33,6 +33,6 @@ runs:
   - name: Extract BepInEx
     shell: pwsh
     run: |
-      Expand-Archive BepInEx_x64*.zip Temp
+      Expand-Archive BepInEx_win_x64*.zip Temp
       cp Temp\BepInEx\core\*.dll ${{ inputs.working-dir }}\Libs
       rm Temp -Recurse
